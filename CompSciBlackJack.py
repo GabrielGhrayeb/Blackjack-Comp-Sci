@@ -7,10 +7,6 @@ dealHand = []
 playing = True
 playerHand = []
 playerMoney = 1000
-dealerTotal = 0
-playerTotal = 0
-
-
 
 def default():
     deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]*4
@@ -41,38 +37,22 @@ def dealCards():
     shuffle(deck)
 
     for card in deck[:2]:
-        # if card == 11:
-        #     card = "A"
-        
-        # if card == 12:
-        #     card = "J"
-
-        # if card == 13:
-        #     card = "Q"
-
-        # if card == 14:
-        #     card = "K"
-                
-        #print(card, end=" ")
         dealHand.append(card)
         deck.pop(deck.index(card))
-
-        # for royal in 
-    #
+        
     for card in deck[:2]:
         deck.pop(deck.index(card))
-        #print(card, end=" " )
+        #@ts-ignore
         playerHand.append(card)
-        #deck.pop(deck.index(card))
 
     print("Dealer's Hand Cards: ", dealHand)
-    print("Dealer's Hand Total:" , )
     print("Your Hand Cards: ", playerHand)
 
-def score(card):
-    pass
 
 def totalScore():
+    dealerTotal = 0
+    playerTotal = 0
+    
     for i in dealHand:
         if i == "J" or i == "Q" or i == "K":
             dealerTotal+= 10
@@ -82,7 +62,8 @@ def totalScore():
             else:
                 dealerTotal+= 11
         else:
-            dealerTotal+= i
+            dealerTotal = dealerTotal + i
+    
 
     for i in playerHand:
         if i == "J" or i == "Q" or i == "K":
@@ -94,9 +75,13 @@ def totalScore():
                 playerTotal+= 11
         else:
             playerTotal+= i
+    if playerTotal == 21:
+        print("You Got Blackjack. You Win")
+        
     print("Dealer Total: ", dealerTotal)
     print("Player Total: ", playerTotal)
         
+
 def playAgain():
     play=input("Would You Like to Play Again? Y/N: ").lower()
     if play == "y":
@@ -108,6 +93,31 @@ def playAgain():
         print("Money: ", playerMoney)
         exit()
 
+def dealerRules():
+    if dealerTotal<=16:
+        deck.append()
+        
+
+
+
+
+
+def playerInput():
+    print(
+        "Press 1 To Hit",
+        "Press 2 To Stand",
+    )
+    action = int(input("Action To Perform:\n"))
+    
+    if(action == 1):
+        print("HIT!")
+        playerHand.append()
+        
+
+    
+
+
+
 def scoreCheck():
     pass
 
@@ -115,6 +125,7 @@ def main():
     while(playing == True or playerMoney > 0):
         placeBets()
         dealCards()
+        totalScore()
         scoreCheck()
         playAgain()
 
