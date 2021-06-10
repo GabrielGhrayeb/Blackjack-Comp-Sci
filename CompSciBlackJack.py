@@ -7,9 +7,13 @@ dealHand = []
 playing = True
 playerHand = []
 playerMoney = 1000
+bet = 0
+dealerTotal = 0
+playerTotal = 0
+
 
 def default():
-    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]*4
+    deck = [2, 3, 4, 5, 6, 7, 8, 9, 10, "A", "J", "Q", "K"]*4
     dealHand.clear()
     playerHand.clear()
     playing = True
@@ -19,6 +23,7 @@ def shuffle(alist):
     deck = random.shuffle(alist)
 
 def placeBets():
+    global bet
     error = True
     while(error == True):
         try:
@@ -28,11 +33,11 @@ def placeBets():
                 print("You Are All In")
                 print("You Have Bet ", playerMoney )
                 bet = playerMoney
-            print("Your Total Is Now ", playerMoney-bet,"\n")
+            print("Your Total Is Now ", playerMoney - bet,"\n")
             error = False
         except:
             error == True
-    #return bet
+    
 
 
 def dealCards():
@@ -52,7 +57,10 @@ def dealCards():
 
 
 def totalScore():
-    playerMoney = 1000
+    global bet
+    global dealerTotal
+    global playerTotal
+    global playerMoney
     dealerTotal = 0
     playerTotal = 0
     
@@ -78,11 +86,30 @@ def totalScore():
                 playerTotal+= 11
         else:
             playerTotal+= i
-    if playerTotal == 21:
-        print("You Got Blackjack. You Win")
-        playerMoney = playerMoney - bet
+    if playerTotal <= 21 and dealerTotal <= 21:        
+        if playerTotal == 21:
+            print("You Got Blackjack. You Win")
+            playerMoney = playerMoney + bet
+        elif dealerTotal == 21:
+            print("The Dealer Got Blackjack. You Lose")
+            playerMoney = playerMoney - bet
+        else:
+            if dealerTotal >= playerTotal:
+                print("The Dealer Wins. You Lose")
+                playerMoney = playerMoney - bet
+            elif playerTotal > dealerTotal:
+                print("You Win")
+                playerMoney = playerMoney + bet
+    else:
+        if playerTotal > 21:
+            print("You Busted. You Lose")
+        else: 
+            print("The Dealer Busted. You Win!!")
     print("Dealer Total: ", dealerTotal)
     print("Player Total: ", playerTotal)
+    print(playerMoney)
+    
+
         
 
 def playAgain():
@@ -97,22 +124,30 @@ def playAgain():
         exit()
 
 def dealerRules():
-    if dealerTotal<=16:
-        deck.append()
+    while dealerTotal <= 16:
+        dealHand.append(deck[0])
+        deck.pop(0)
+        print(dealHand)
+        totalScore()
         
 
 
 def playerInput():
     print(
-        "Press 1 To Hit",
+        "Press 1 To Hit\n",
         "Press 2 To Stand",
     )
     action = int(input("Action To Perform:\n"))
-    
-    if(action == 1):
-        print("HIT!")
-        playerHand.append()
-        
+    if playerMoney > 20:
+        if(action == 1):
+            print("HIT!")
+            playerHand.append(deck[0])
+            print("You Got: ", playerHand)
+            deck.pop(0)
+        elif(action == 2):
+            print("You Stood At ", playerTotal)
+        totalScore()
+            
 
     
 
@@ -126,8 +161,11 @@ def main():
         placeBets()
         dealCards()
         totalScore()
+        dealerRules()
+        playerInput()
         scoreCheck()
         playAgain()
+        
 
 if __name__ == '__main__':
     main()
