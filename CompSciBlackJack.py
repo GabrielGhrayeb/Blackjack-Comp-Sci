@@ -13,7 +13,7 @@ def default():
     dealHand.clear()
     playerHand.clear()
     playing = True
-    playerMoney = 1000
+    
 
 def shuffle(alist):
     deck = random.shuffle(alist)
@@ -31,6 +31,7 @@ def placeBets():
             error = False
         except:
             error == True
+    #return bet
 
 
 def dealCards():
@@ -50,6 +51,7 @@ def dealCards():
 
 
 def totalScore():
+    playerMoney = 1000
     dealerTotal = 0
     playerTotal = 0
     
@@ -77,7 +79,7 @@ def totalScore():
             playerTotal+= i
     if playerTotal == 21:
         print("You Got Blackjack. You Win")
-        
+        playerMoney = playerMoney - bet
     print("Dealer Total: ", dealerTotal)
     print("Player Total: ", playerTotal)
         
@@ -97,9 +99,6 @@ def dealerRules():
     if dealerTotal<=16:
         deck.append()
         
-
-
-
 
 
 def playerInput():
