@@ -19,15 +19,16 @@ def shuffle(alist):
     deck = random.shuffle(alist)
 
 def placeBets():
-    error = False
+    error = True
     while(error == True):
         try:
             print("Your Total Is ", playerMoney)
             bet = int(input("How much would you like to bet?"))
             if bet >= playerMoney:
-                print("All In")
+                print("You Are All In")
+                print("You Have Bet ", playerMoney )
                 bet = playerMoney
-            print("Your Total Is Now ", playerMoney-bet)
+            print("Your Total Is Now ", playerMoney-bet,"\n")
             error = False
         except:
             error == True
